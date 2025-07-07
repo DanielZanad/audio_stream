@@ -4,3 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+ratatui = {version = "0.29.0", features = ["all-widgets"]}
+cpal = "0.16"
+tokio = { version = "1.46.1", features = ["full"] }
+bytemuck = "1.23.1"
+crossbeam-channel = "0.5.15"
+opus = "0.3.0"
