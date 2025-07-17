@@ -14,7 +14,7 @@ const FRAME_SIZE: usize = 1024; // This is the number of *samples* per frame
 #[repr(C)]
 struct Sample(f32);
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+pub fn receiver_stream() -> Result<(), Box<dyn std::error::Error>> {
     let host = cpal::default_host();
     let device = host
         .default_output_device()
@@ -27,7 +27,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         sample_rate,
         buffer_size: cpal::BufferSize::Default,
     };
-    let format = SampleFormat::F32; // Your current format
 
     println!("Using output device: {}", device.name()?);
     println!("Using sample rate: {:?}", config.sample_rate);
@@ -38,8 +37,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // === Spawn TCP server thread ===
     thread::spawn(move || {
-        let listener = TcpListener::bind(":7777").expect("Failed to bind TCP socket");
-        println!("Listening for audio on :7777...");
+        let listener = TcpListener::bind("192.168.15.21:7777").expect("Failed to bind TCP socket");
+        println!("Listening for audio on 192.168.15.21:7777...");
 
         for stream in listener.incoming() {
             match stream {
